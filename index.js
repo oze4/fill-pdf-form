@@ -16,11 +16,7 @@ let PDF_BYTES;
 createPdfButton.addEventListener("click", async () => {
   try {
     PDF_BYTES = await handleCreatePdf();
-    if (PDF_BYTES) {
-      displayPdfBytesInIframe(pdfIframe, PDF_BYTES);
-    } else {
-      throw new Error("PDF Not Created");
-    }
+    displayPdfBytesInIframe(pdfIframe, PDF_BYTES);
   } catch (e) {
     alert(`Something went wrong creating pdf! Error : ${e.message}`);
   }
@@ -29,11 +25,7 @@ createPdfButton.addEventListener("click", async () => {
 fillPdfFormButton.addEventListener("click", async () => {
   try {
     PDF_BYTES = await fillPdfForm(PDF_BYTES);
-    if (PDF_BYTES) {
-      displayPdfBytesInIframe(pdfIframe, PDF_BYTES);
-    } else {
-      throw new Error("PDF Not Edited");
-    }
+    displayPdfBytesInIframe(pdfIframe, PDF_BYTES);
   } catch (e) {
     alert(`Something went wrong editing pdf! Error : ${e.message}`);
   }
@@ -49,6 +41,9 @@ fillPdfFormButton.addEventListener("click", async () => {
  * Displays PDF bytes in Iframe via Blob URL
  */
 function displayPdfBytesInIframe(iframeElement, pdfBytes) {
+  if (!pdfBytes) {
+    return;
+  }
   const blob = new Blob([pdfBytes], { type: "application/pdf" });
   iframeElement.src = URL.createObjectURL(blob);
 }
